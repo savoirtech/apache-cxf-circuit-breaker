@@ -46,6 +46,9 @@ operation, otherwise it will re-open the circuit.
 
 # How do we implement this in CXF?
 
+We have provided in this post’s repo a sample of JAX-WS and JAX-RS
+circuit break implementations.
+
 ## JAX-WS
 
 ``` xml
@@ -77,6 +80,13 @@ operation, otherwise it will re-open the circuit.
 ```
 
 # Conclusion
+
+The circuit breaker pattern is an effective way to provide fault
+tolerance in a distributed services architecture. The small overhead of
+monitoring traffic through services is out weighed by the benefit of
+preventing cascade failures. This pattern in of itself is not panacea,
+timeouts, retry, failover, and other patterns should be implemented in
+an overall plan towards fault tolerance in your architecture.
 
 # About the Authors
 
