@@ -67,11 +67,11 @@ operation, otherwise it will re-open the circuit.
 <!-- other jaxrs:client attributes and elements are omitted for brevity -->
 <jaxrs:client id="failoverRandom" address="http://localhost:8080/initialAddress">
     <jaxrs:features>
-        <clustering:failover>
+        <clustering:circuit-breaker-failover threshold="1" timeout="60000">
             <clustering:strategy>
                 <ref bean="RandomAddresses"/>
             </clustering:strategy>
-        </clustering:failover>
+        </clustering:circuit-breaker-failover>
     </jaxrs:features>
 </jaxrs:client>
 ```
