@@ -48,7 +48,33 @@ operation, otherwise it will re-open the circuit.
 
 ## JAX-WS
 
+``` xml
+<!-- other jaxws:client attributes and elements are omitted for brevity -->
+<jaxws:client id="clientWithRandomFailoverSupport" address="http://localhost:8080/initialAddress">
+   <jaxws:features>
+       <clustering:circuit-breaker-failover threshold="1" timeout="60000">
+            <clustering:strategy>
+                <ref bean="RandomAddresses"/>
+            </clustering:strategy>
+        </clustering:circuit-breaker-failover>
+   </jaxws:features>
+</jaxws:client>
+```
+
 ## JAX-RS
+
+``` xml
+<!-- other jaxrs:client attributes and elements are omitted for brevity -->
+<jaxrs:client id="failoverRandom" address="http://localhost:8080/initialAddress">
+    <jaxrs:features>
+        <clustering:failover>
+            <clustering:strategy>
+                <ref bean="RandomAddresses"/>
+            </clustering:strategy>
+        </clustering:failover>
+    </jaxrs:features>
+</jaxrs:client>
+```
 
 # Conclusion
 
