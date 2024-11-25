@@ -8,8 +8,21 @@ circuit breaker.
 # Circuit Breaker Pattern
 
 The key concepts of the circuit breaker is that one places service
-access under a management component, this component monitors the
-service.
+access under a management component. The circuit breaker then acts as a
+traffic officer, preventing a down stream service from getting calls it
+can not serve, while also immediately failing client calls as to not
+make them await results. This behavoir in a small scale application may
+appear to be over-kill, in larger systems this may act to prevent
+cascading failures.
+
+<figure>
+<img src="./assets/images/IntroduceCB.png" alt="IntroduceCB" />
+</figure>
+
+In the above diagram the circuit breaker, when opened, prevents other
+services from potentially failing due resource exhaustion on the service
+side processing timeout requests from the client application seeking the
+data service.
 
 ## CLOSED STATE
 

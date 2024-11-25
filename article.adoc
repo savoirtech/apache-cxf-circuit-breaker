@@ -6,7 +6,11 @@ Solution: Fail fast, gracefully. Resume services, cautiously. Use a circuit brea
 
 == Circuit Breaker Pattern
 
-The key concepts of the circuit breaker is that one places service access under a management component, this component monitors the service.
+The key concepts of the circuit breaker is that one places service access under a management component. The circuit breaker then acts as a traffic officer, preventing a down stream service from getting calls it can not serve, while also immediately failing client calls as to not make them await results. This behavoir in a small scale application may appear to be over-kill, in larger systems this may act to prevent cascading failures.
+
+image::./assets/images/IntroduceCB.png[alt=IntroduceCB,width=480,height=640,align="center"]
+
+In the above diagram the circuit breaker, when opened, prevents other services from potentially failing due resource exhaustion on the service side processing timeout requests from the client application seeking the data service.
 
 === CLOSED STATE
 
