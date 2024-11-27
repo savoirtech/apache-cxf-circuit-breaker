@@ -49,6 +49,63 @@ operation, otherwise it will re-open the circuit.
 We have provided in this post’s repo a sample of JAX-WS and JAX-RS
 circuit break implementations.
 
+## Build
+
+``` bash
+mvn clean install
+```
+
+## Deploy
+
+``` bash
+feature:repo-add cxf 3.5.5
+feature:install aries-blueprint cxf-jaxws cxf-features-clustering
+install -s wrap:mvn:org.codeartisans/org.json/20130213
+install -s mvn:joda-time/joda-time/2.8.1
+install -s mvn:org.qi4j.core/org.qi4j.core.functional/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.api/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.io/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.spi/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.bootstrap/2.1
+install -s mvn:org.qi4j.library/org.qi4j.library.jmx/2.1
+install -s mvn:org.qi4j.library/org.qi4j.library.circuitbreaker/2.1
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxws/gateway
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxws/client
+```
+
+To resolve CXF class loading issue, we append a Fragment - this is
+activated when CXF Clustering is refreshed.
+
+``` bash
+install mvn:com.savoir.cxf.circuit.breaker.jaxws/fragment
+refresh ${org.apache.cxf.cxf-rt-features-clustering-bundleId}
+install mvn:com.savoir.cxf.circuit.breaker.jaxws/command
+install mvn:com.savoir.cxf.circuit.breaker.jaxws/dataservice
+```
+
+Your Karaf should report the following bundles:
+
+``` bash
+karaf@root()> list
+START LEVEL 100 , List Threshold: 50
+ ID │ State    │ Lvl │ Version        │ Name
+────┼──────────┼─────┼────────────────┼───────────────────────────────────────────────
+ 33 │ Active   │  80 │ 4.4.6          │ Apache Karaf :: OSGi Services :: Event
+115 │ Active   │  80 │ 0              │ wrap_mvn_org.codeartisans_org.json_20130213
+116 │ Active   │  80 │ 2.8.1          │ Joda-Time
+117 │ Active   │  80 │ 2.1            │ Apache Zest™ Functional
+118 │ Active   │  80 │ 2.1            │ Apache Zest™ Core API
+119 │ Active   │  80 │ 2.1            │ Apache Zest™ I/O
+120 │ Active   │  80 │ 2.1            │ Apache Zest™ Core SPI
+121 │ Active   │  80 │ 2.1            │ Apache Zest™ Core Bootstrap
+122 │ Active   │  80 │ 2.1            │ Apache Zest™ Library - JMX
+123 │ Active   │  80 │ 2.1            │ Apache Zest™ Library - Circuit Breaker
+124 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: gateway
+125 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: client
+128 │ Resolved │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: fragment, Hosts: 70
+karaf@root()>
+```
+
 ## JAX-WS
 
 ``` xml
