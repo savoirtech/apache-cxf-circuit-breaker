@@ -45,6 +45,7 @@
 
     <modules>
         <module>jaxws</module>
+        <module>jaxrs</module>
     </modules>
 
     <build>

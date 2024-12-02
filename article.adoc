@@ -36,7 +36,7 @@ We have provided in this post's repo a sample of JAX-WS and JAX-RS circuit break
 mvn clean install
 ----
 
-=== Deploy
+=== Deploy JAX-WS
 
 [,bash,num]
 ----
@@ -51,6 +51,7 @@ install -s mvn:org.qi4j.core/org.qi4j.core.spi/2.1
 install -s mvn:org.qi4j.core/org.qi4j.core.bootstrap/2.1
 install -s mvn:org.qi4j.library/org.qi4j.library.jmx/2.1
 install -s mvn:org.qi4j.library/org.qi4j.library.circuitbreaker/2.1
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxws/dataservice
 install -s mvn:com.savoir.cxf.circuit.breaker.jaxws/gateway
 install -s mvn:com.savoir.cxf.circuit.breaker.jaxws/client
 ----
@@ -62,7 +63,6 @@ To resolve CXF class loading issue, we append a Fragment - this is activated whe
 install mvn:com.savoir.cxf.circuit.breaker.jaxws/fragment
 refresh ${org.apache.cxf.cxf-rt-features-clustering-bundleId}
 install mvn:com.savoir.cxf.circuit.breaker.jaxws/command
-install mvn:com.savoir.cxf.circuit.breaker.jaxws/dataservice
 ----
 
 Your Karaf should report the following bundles:
@@ -71,7 +71,7 @@ Your Karaf should report the following bundles:
 karaf@root()> list
 START LEVEL 100 , List Threshold: 50
  ID │ State    │ Lvl │ Version        │ Name
-────┼──────────┼─────┼────────────────┼───────────────────────────────────────────────
+────┼──────────┼─────┼────────────────┼───────────────────────────────────────────────────────
  33 │ Active   │  80 │ 4.4.6          │ Apache Karaf :: OSGi Services :: Event
 115 │ Active   │  80 │ 0              │ wrap_mvn_org.codeartisans_org.json_20130213
 116 │ Active   │  80 │ 2.8.1          │ Joda-Time
@@ -85,10 +85,14 @@ START LEVEL 100 , List Threshold: 50
 124 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: gateway
 125 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: client
 128 │ Resolved │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: fragment, Hosts: 70
+129 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: command
+130 │ Active   │  80 │ 1.0.0.SNAPSHOT │ Circuit Breaker Demo :: JAX-WS :: dataservice
 karaf@root()>
 ----
 
-=== JAX-WS
+== JAX-WS
+
+
 
 [,xml,num]
 ----
@@ -104,7 +108,41 @@ karaf@root()>
 </jaxws:client>
 ----
 
-=== JAX-RS
+=== Deploy JAX-RS
+
+[,bash,num]
+----
+feature:repo-add cxf 3.5.5
+feature:install aries-blueprint cxf-jaxrs cxf-features-clustering cxf-ws-policy
+install -s wrap:mvn:org.codeartisans/org.json/20130213
+install -s mvn:joda-time/joda-time/2.8.1
+install -s mvn:org.qi4j.core/org.qi4j.core.functional/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.api/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.io/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.spi/2.1
+install -s mvn:org.qi4j.core/org.qi4j.core.bootstrap/2.1
+install -s mvn:org.qi4j.library/org.qi4j.library.jmx/2.1
+install -s mvn:org.qi4j.library/org.qi4j.library.circuitbreaker/2.1
+install -s mvn:com.fasterxml.jackson.core/jackson-core/2.14.1
+install -s mvn:com.fasterxml.jackson.core/jackson-annotations/2.14.1
+install -s mvn:com.fasterxml.jackson.core/jackson-databind/2.14.1
+install -s mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.14.1
+install -s mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.14.1
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxrs/dataservice
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxrs/gateway
+install -s mvn:com.savoir.cxf.circuit.breaker.jaxrs/client
+----
+
+To resolve CXF class loading issue, we append a Fragment - this is activated when CXF Clustering is refreshed.
+
+[,bash,num]
+----
+install mvn:com.savoir.cxf.circuit.breaker.jaxrs/fragment
+refresh ${org.apache.cxf.cxf-rt-features-clustering-bundleId}
+install mvn:com.savoir.cxf.circuit.breaker.jaxrs/command
+----
+
+== JAX-RS
 
 [,xml,num]
 ----

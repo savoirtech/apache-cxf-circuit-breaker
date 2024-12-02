@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.savoir.cxf.circuit.breaker.jaxws.gateway.impl;
+package com.savoir.cxf.circuit.breaker.jaxrs.dataservice;
 
-import com.savoir.cxf.circuit.breaker.jaxws.gateway.GatewayService;
-import com.savoir.cxf.circuit.breaker.jaxws.dataservice.DataService;
 
-public class GatewayImpl implements GatewayService {
+public interface DataService {
 
-    private DataService proxy;
-
-    public void setProxy(DataService proxy) {
-        this.proxy = proxy;
-    }
-
-    @Override
-    public String call() {
-        String response = proxy.doDataSourceStuff();
-        return "Gateway Called DS, got response: " + response;
-    }
+    String doDataSourceStuff();
 }

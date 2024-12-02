@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 
-<features name="jaxws-cb" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+<features name="jaxrs-cb" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
 
     <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
 

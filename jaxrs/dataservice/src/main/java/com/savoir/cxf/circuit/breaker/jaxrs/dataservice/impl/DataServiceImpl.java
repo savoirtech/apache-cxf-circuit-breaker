@@ -13,22 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.savoir.cxf.circuit.breaker.jaxws.gateway.impl;
+package com.savoir.cxf.circuit.breaker.jaxrs.dataservice.impl;
 
-import com.savoir.cxf.circuit.breaker.jaxws.gateway.GatewayService;
-import com.savoir.cxf.circuit.breaker.jaxws.dataservice.DataService;
+import com.savoir.cxf.circuit.breaker.jaxrs.dataservice.DataService;
 
-public class GatewayImpl implements GatewayService {
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-    private DataService proxy;
+@Path("/")
+public class DataServiceImpl implements DataService {
 
-    public void setProxy(DataService proxy) {
-        this.proxy = proxy;
+
+    private long sleep;
+
+    public void setSleep(long sleep) {
+        this.sleep = sleep;
     }
 
     @Override
-    public String call() {
-        String response = proxy.doDataSourceStuff();
-        return "Gateway Called DS, got response: " + response;
+    @Path("/")
+    @Produces("application/json")
+    @GET
+    public String doDataSourceStuff() {
+        try {
+            Thread.sleep(sleep);
+        } catch (InterruptedException e) {
+            // ignore
+        }
+        return "Talked to the DataSource.";
     }
 }
